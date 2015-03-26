@@ -1,5 +1,5 @@
 '''
-BLANK_PY
+Durskr
 =============
 Copyright (c) 2015, Jonathan LURIE, All rights reserved.
 This library is free software; you can redistribute it and/or

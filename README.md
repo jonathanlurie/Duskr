@@ -147,3 +147,7 @@ The right side is the field you will find in the `xmp` file.
 ## Plateform compatibility
 **Duskr** was Developed on MacOSX. Since it's pure Python, It should work pretty nice on Windows if you replace `Duskr.sh` by its `.bat` equivalent.   
 One thing will for sure not work: the final auto-launch of **CameraRaw** with all the images. Anyway, you can select all of them, right-click, Open with **Photoshop**. 
+
+## Licence
+
+GNU Lesser General Public (LGPL)
