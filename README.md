@@ -1,6 +1,6 @@
 ![](https://www.dropbox.com/s/gzgwutqsvvhdfjg/logomini.png?dl=0&raw=1)
 
-**_Duskr_** is a timelapse interpolator written in pure Python. It uses the `xmp` raw-development-files created by **Adobe CameraRaw** to create smooth transition from light to dark (or the opposite). It was made for MacOSX but could also work on Windows with few tricks (see at the end).
+**_Duskr_** is a timelapse interpolator written in pure Python. It uses the `xmp` raw-development-files created by **Adobe CameraRaw** to create smooth transition from light to dark (or the opposite). It was made for MacOSX but could also work on Windows with few tricks ([see at the end](#plateform-compatibility)).
 
 ## Why *Duskr* was created
 When you are capturing a timelapse with your camera, it takes a **lot** of pictures, most of the time some hundreds. You don't want to process all those pictures one by one. You don't want neither to batch process all of them the same way, because the light was changing, the color became warmer, etc.  
@@ -43,7 +43,7 @@ This will generate a `xmp` file for each image in your sequence folder. You don'
 <center>![](https://www.dropbox.com/s/lm6z3bym2fzm1o4/captureDuskr3.jpg?dl=0&raw=1)</center>
 
 - You can check some images and see that the settings were interpolated.
-- Then, it's time to **export** them! Click on the right-top button `Select All` :
+- Then, it's time to **export** them! Click on the top-right button `Select All` :
 
 <center>![](https://www.dropbox.com/s/9q8ccmfbgu1oqbu/captureDuskr4?dl=0&raw=1)</center>
 
@@ -51,15 +51,15 @@ This will generate a `xmp` file for each image in your sequence folder. You don'
 
 <center>![](https://www.dropbox.com/s/cz13bcd4txuc5mr/captureDuskr5?dl=0&raw=1)</center>
 
-Here stops the job of **Duskr**, you can use you favorite timelapse composer to make your final sequence! Personally, I use [Zeitraffer](https://itunes.apple.com/fr/app/zeitraffer/id572526628?mt=12), it's easy and efficient.
+Here stops the job of **Duskr**! You can use you favorite timelapse composer to make your video sequence. Personally, I use [Zeitraffer](https://itunes.apple.com/fr/app/zeitraffer/id572526628?mt=12), it's free, easy and efficient (MacOSX only).
 
 ## Raw format compatibility
 All along the development of **Duskr**, I used my Nikon camera and its `NEF` files. But as long as your *raw* files are compatible with **CameraRaw**, it is supposed to work.
 
 ## More info about xmp files
-All the development settings are in the `.xmp` file attached to an original *raw* file. The purpose of the `.xmp` file is to provide a non-destructive way to edit an image, it only changes some parameters without modifying the original *raw* file.
+All the development settings are in the `.xmp` file attached to an original *raw* file. The purpose of the `xmp` file is to provide a non-destructive way to edit an image, it only changes some parameters without modifying the original *raw* file.
 
-The `.xmp` file uses an *XML* syntax, making it easily editable by a human or a program. The *XML* fields that handle the image development are stored as shown below in the `.xmp` file:
+The `xmp` file uses an *XML* syntax, making it easily editable by a human or a program. The *XML* fields that handle the image development are stored as shown below in the `xmp` file:
 
 ```xml
 <x:xmpmeta>
@@ -100,7 +100,7 @@ The `.xmp` file uses an *XML* syntax, making it easily editable by a human or a 
 
 ```
 
-The section commented *__Photo development settings__* are the one we are interested in. All the fields starting by `crs:` are related to an image development setting in Camera Raw. Here is the list of the most interesting:
+The section commented *__Photo development settings__* is the one we are interested in. All the fields starting by `crs:` are related to an image development setting in **CameraRaw**. Here is the list of the most interesting:
 
 
 
@@ -121,9 +121,9 @@ The section commented *__Photo development settings__* are the one we are intere
 **Duskr** will only make the interpolation over the above fields. The other fields will take the value set for the **first** raw image.
 
 ## Extend Duskr
-So far, **Dusk** does not interpolate the other field than the one shown in the above section. The reason is that they usually need no interpolation. **But** if you want to add the interpolation over simple fields (understand : no *curves* settings), you can add the fields names in the `settings.ini` file.
+So far, **Dusk** does not interpolate the other field than the one shown in the above section. The reason is that they usually need no interpolation. **But** if you want to add the interpolation over other simple fields (understand : no *curves* settings), you can add the fields names in the `settings.ini` file.
 
-So far, it is like that:
+So far, it looks that:
 
 ```
 [rawDevSettings]
