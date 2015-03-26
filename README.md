@@ -1,4 +1,4 @@
-<center><img src="https://www.dropbox.com/s/0slqtcvnckdnlfy/logo.png?dl=0&raw=1" alt="Mountain View" style="width:150px;"></center>
+<center><img src="https://www.dropbox.com/s/0slqtcvnckdnlfy/logo.png?dl=0&raw=1" alt="Mountain View" style="width:50px;"></center>
 
 **_Duskr_** is a timelapse interpolator written in pure Python. It uses the `xmp` raw-development-files created by **Adobe CameraRaw** to create smooth transition from light to dark (or the oposite). It was made for MacOSX but could also work on Windows with few tricks (see at the end).
 
