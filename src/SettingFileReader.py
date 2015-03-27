@@ -76,7 +76,7 @@ class SettingFileReader:
 
         return settingValue
 
-    # return a array of all the tuples like (paramName : ParamValue)
+    # return an array of all the tuples like (paramName : ParamValue)
     # present in the group of param
     def getItems(self, group):
         return self._parser.items(group)
