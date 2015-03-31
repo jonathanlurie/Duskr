@@ -38,7 +38,7 @@ from ConfigParser import *
 class SettingFileReader:
 
     # default file address
-    _fileName = 'settings.ini'
+    _fileName = 'settings/settings.ini'
 
     # parser object
     _parser = None

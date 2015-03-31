@@ -21,6 +21,8 @@ import re
 
 from XmpManager import *
 
+from DuskrView import *
+
 
 
 
@@ -52,5 +54,6 @@ if __name__ == '__main__':
             notDefined = False
 
 
-    xmpMngr = XmpManager(firstRawImage)
+    xmpMngr = XmpManager()
+    xmpMngr.setFirstRawImage(firstRawImage)
     xmpMngr.process()

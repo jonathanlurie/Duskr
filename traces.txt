@@ -1,0 +1,222 @@
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4338.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4339.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4340.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4341.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4342.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4343.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4344.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4345.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4338.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4339.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4340.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4341.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4342.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4343.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4344.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4345.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4338.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4339.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4340.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4341.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4342.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4343.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4344.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4345.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4338.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4339.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4340.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4341.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4342.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4343.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4344.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4345.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4338.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4339.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4340.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4341.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4342.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4343.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4344.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4345.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4338.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4339.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4340.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4341.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4342.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4343.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4344.xmp
+func _writeXmpFile DEBUG01
+Enter _writeXmpFile
+matrxXmp /Users/jonathanlurie/Documents/code/data/NEFpictures/xmpMatrix.xmp
+xmpFileOutput /Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4345.xmp
+func _writeXmpFile DEBUG01

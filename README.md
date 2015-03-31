@@ -2,6 +2,10 @@
 
 **_Duskr_** is a timelapse interpolator written in pure Python. It uses the `xmp` raw-development-files created by **Adobe CameraRaw** to create smooth transition from light to dark (or the opposite). It was made for MacOSX but could also work on Windows with few tricks ([see at the end](#plateform-compatibility)).
 
+## Binary package
+A *app* binary package is available for **MacOSX** only.  
+You can find it [there](https://www.dropbox.com/s/c1q7zqplsvqel4h/Duskr.zip?dl=0), in a zip file, unarchive it, and it's ready!
+
 ## Why *Duskr* was created
 When you are capturing a timelapse with your camera, it takes a **lot** of pictures, most of the time some hundreds. You don't want to process all those pictures one by one. You don't want neither to batch process all of them the same way, because the light was changing, the color became warmer, etc.  
 If you are pretty well equipped, you might have some kind of *bulb-ramping device* like [Timelapse+](http://www.timelapseplus.com/). In other case, you might compensate the light-changing environment afterwards in your final video. With a **Jpeg color depth** (8 bits), and that's a shame when you capture all your timelapse in **raw** (12 or 14 bits).
@@ -148,6 +152,24 @@ The right side is the field you will find in the `xmp` file.
 **Duskr** was Developed on MacOSX. Since it's pure Python, It should work pretty nice on Windows if you replace `Duskr.sh` by its `.bat` equivalent.   
 One thing will for sure not work: the final auto-launch of **CameraRaw** with all the images. Anyway, you can select all of them, right-click, Open with **Photoshop**. 
 
+## Building Duskr
+To build *Duskr* and transform it into a stand-alone Mac app, you will need [Py2app](https://pypi.python.org/pypi/py2app/). Instead of compiling Py2app, you can also install it with *pip* or *easy_install*, read [this](http://pythonhosted.org//py2app/install.html) for more info.
+
+Once you have *Py2app*, open a terminal.  
+*Note :* here we will call theDuskFolder, the folder that contains the file setup.py
+
+```
+
+$ cd theDuskrFolder
+$ python setup.py py2app
+
+```
+
+Then some work is done. Eventually, you will find two new folders:
+
+- **build** : contains a lot of temporary data. You can basically remove it.
+- **dist** : contains the **Duskr Application**. It is standalone so you can move it to your *Application* folder.
+
 ## Licence
 
-GNU Lesser General Public (LGPL)
+GNU Lesser General Public (LGPL).
