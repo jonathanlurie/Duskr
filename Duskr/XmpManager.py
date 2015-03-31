@@ -22,6 +22,10 @@ import time
 
 from SettingFileReader import *
 
+import tracer
+
+from subprocess import call
+
 class XmpManager:
 
     # contains the xmp file address of the first and the last
@@ -49,24 +53,37 @@ class XmpManager:
     # used to conserve an orinal xmp file aside
     _xmpMatrixFileName = "xmpMatrix.xmp"
 
+    def __init__(self):
+        self._xmpBaseList = []
+        self._xmpDictionary = {}
+        self._settingCouples = []
+        settings = SettingFileReader()
+        self._settingCouples = settings.getItems('rawDevSettings')
+
 
     # The folder conains raw images
-    def __init__(self, FirstRawImage):
-
+    def setFirstRawImage(self, FirstRawImage):
         # guessing the raw extension from the first image
         self._rawExtension = os.path.splitext(os.path.basename(FirstRawImage))[1]
 
         # guessing the input folder from the first image
         self._imageFolder = os.path.dirname(FirstRawImage)
 
-        self._xmpBaseList = []
-        self._xmpDictionary = {}
-
         self._xmpMatrixFileName =  self._imageFolder + os.sep + self._xmpMatrixFileName
-        self._settingCouples = []
-        settings = SettingFileReader()
-        self._settingCouples = settings.getItems('rawDevSettings')
 
+    # used for moitoring
+    def getNumberOfRawFiles(self):
+        return len(self._rawImageList)
+
+
+    # the xmp list is ok if the first xmp hase the same name as the first raw
+    # idem for the last
+    def isXmpBaseListOk(self):
+
+        firstOk = os.path.splitext(os.path.basename(self._rawImageList[0]))[0] == os.path.splitext(os.path.basename(self._xmpBaseList[0]))[0]
+        lastOk = os.path.splitext(os.path.basename(self._rawImageList[-1]))[0] == os.path.splitext(os.path.basename(self._xmpBaseList[-1]))[0]
+
+        return (firstOk and lastOk)
 
     # parse the image folder, meaning:
     # read what extension should be considered for image raw files
@@ -119,6 +136,7 @@ class XmpManager:
 
     # Fill the None values of the dictionaty by interpolation
     # between the first and the last
+    # TODO : expand this finctionality to intermediate settings
     def _interpolateDictionary(self):
         numberOfSamples = len(self._xmpDictionary)
 
@@ -146,6 +164,69 @@ class XmpManager:
                 imageIterator = imageIterator + 1
 
 
+    # Fill the None values of the dictionaty by interpolation
+    # between the first and the last
+    # TODO : expand this finctionality to intermediate settings
+    def _interpolateDictionary2(self):
+
+
+        sortedDict = sorted(self._xmpDictionary.items())
+
+
+        # we are looking for all kind of settings (crs:saturation, etc.)
+        for settingCouple in self._settingCouples:
+
+            settingName = settingCouple[1]
+
+            # for which raw file is there an xmp?
+            # at least the first and the last...
+            xmpPositions = []
+
+            # finding xmp positions
+            counter = 0
+            for xmp in sortedDict:
+                if(xmp[1][settingName]):
+                    xmpPositions.append(counter)
+
+                counter = counter + 1
+
+
+            # loop over the xmp positions.
+            # starting from the second because we are intrepolation
+            # between i-1 and i
+            for i in range(1, len(xmpPositions)):
+
+                self._interpolateSubpartDictionary(settingName, xmpPositions[i-1], xmpPositions[i])
+
+        for img in sortedDict:
+            print img
+
+
+    # extrapolate values of the dictionary. Works for more than 2 xmp files
+    def _interpolateSubpartDictionary(self, setting, start, end):
+        sortedDict = sorted(self._xmpDictionary.items())
+
+        startValue = sortedDict[start][1][setting]
+        endValue = sortedDict[end][1][setting]
+
+        needInterpolation = (startValue != endValue)
+
+        numberOfSamples = end - start + 1
+        counter = 0
+
+        # computing inter values.
+        for i in range(start, end):
+
+            #default case
+            newValue = startValue
+
+            if(needInterpolation):
+                newValue = self._interpolate(startValue, endValue, numberOfSamples, counter)
+
+                sortedDict[i][1][setting] = newValue
+                counter = counter + 1
+
+
     # Linear interpolation of values.
     # gives the value at outputSamplePosition
     def _interpolate(self, firstValue, lastValue, totalNumberOfSamples, outputSamplePosition):
@@ -162,7 +243,10 @@ class XmpManager:
     # relies mainly on _writeXmpFile() though.
     def _writeAllXmp(self):
         # conserve an original xmp file aside
-        os.system('rsync -ptgo -A -X "' + self._xmpBaseList[0] + '" "' + self._xmpMatrixFileName + '"')
+        #os.system('rsync -ptgo -A -X "' + self._xmpBaseList[0] + '" "' + self._xmpMatrixFileName + '"')
+        os.system('cp "' + self._xmpBaseList[0] + '" "' + self._xmpMatrixFileName + '"')
+        #call(["rsync", "-ptgo", "-A", "-X", self._xmpBaseList[0], self._xmpMatrixFileName])
+
 
         for xmp in sorted(self._xmpDictionary.items()):
             self._writeXmpFile(xmp)
@@ -171,6 +255,7 @@ class XmpManager:
     # copy an xmp file and replace the fields by the one from xmpOccurence.
     # xmpOccurence is basically "one page of" the _xmpDictionary
     def _writeXmpFile(self, xmpOccurence):
+
         baseNameNoExt = xmpOccurence[0]
 
         # for replacing the name or the image itself in the output xmp file
@@ -181,8 +266,10 @@ class XmpManager:
 
         # copy an original file rather than creating from scratch,
         # it will keep the xattr that we need
-        os.system('rsync -ptgo -A -X "' + self._xmpMatrixFileName + '" "' + xmpFileOutput + '"')
+        #os.system('rsync -ptgo -A -X "' + self._xmpMatrixFileName + '" "' + xmpFileOutput + '"')
+        os.system('cp "' + self._xmpMatrixFileName + '" "' + xmpFileOutput + '"')
         open(xmpFileOutput, 'w').close()
+
 
         # line by line, we read and write on the flow
         #with open(xmpFileOutput, "wt") as fout:
@@ -215,28 +302,59 @@ class XmpManager:
                 fout.write(outputLine)
         fout.close()
 
-
+    # just a call of processPart1 and part2
     def process(self):
-        start = time.time()
+        self.processPart1()
+        self.processPart2()
 
 
-        # process
-        print("[Start processing]")
-        print("\tBrowsing input folder...")
-        self._parseFolder()
+    def processPart1(self):
+        isSuccess = False
+        try:
+            # process
+            print("[Start processing]")
+            print("\tBrowsing input folder...")
+            self._parseFolder()
+
+            isSuccess = True
+        except:
+            None
+
+        return isSuccess
+
+    def processPart2(self):
+        isSuccess = False
+
+        #try:
         print("\tFilling the dictionary...")
         self._fillDictionnary()
+
+        print "-----------------------"
+
+
+
         print("\tLinear interpolation...")
-        self._interpolateDictionary()
+        self._interpolateDictionary2()
+
+
+
+
+
         print("\tXmp file writing...")
         self._writeAllXmp()
-        self._finish()
-        end = time.time()
-        timeStr = str(round(end-start, 3)) + " seconds "
 
-        print("[Job done in " + timeStr + "]")
+        self._finish()
+
+        isSuccess = True
 
         self._launchPhotoshop()
+        #except:
+        #None
+
+
+
+        return isSuccess
+
 
     # look for photoshop on the computer, if found, lauched.
     def _launchPhotoshop(self):
