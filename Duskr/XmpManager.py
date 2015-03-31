@@ -223,8 +223,8 @@ class XmpManager:
             if(needInterpolation):
                 newValue = self._interpolate(startValue, endValue, numberOfSamples, counter)
 
-                sortedDict[i][1][setting] = newValue
-                counter = counter + 1
+            sortedDict[i][1][setting] = newValue
+            counter = counter + 1
 
 
     # Linear interpolation of values.
