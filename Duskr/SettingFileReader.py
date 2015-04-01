@@ -82,6 +82,30 @@ class SettingFileReader:
         return self._parser.items(group)
 
 
+    # returns a list of setting values, with no tag
+    def getSettings(self, group):
+
+        items = self.getItems(group)
+        valueList = []
+
+        for couple in items:
+            valueList.append(couple[1])
+
+        return valueList
+
+
+    # returns a list of tags, with no values
+    def getTags(self, group):
+
+        items = self.getItems(group)
+        tagList = []
+
+        for couple in items:
+            tagList.append(couple[0])
+
+        return tagList
+
+
     # update a param value within the setting.ini file.
     # if the param or group does not exist, it will be created
     def setSetting(self, group, name, value):

@@ -90,7 +90,7 @@ class ExivWrapper :
 
         # if was not found, exit
         if(not result):
-            return
+            return None
 
         # empty list to store the clean and casted result
         cleanResult = []
@@ -102,7 +102,6 @@ class ExivWrapper :
 
             # 3. the second must be "XmpSeq" or "XmpText"
             if(result[1] == "XmpText"):
-                print "debug01"
 
 
                 # we dont really care about result[2] which is the size of the value,
@@ -111,7 +110,6 @@ class ExivWrapper :
                 cleanResult.append(self._castToWhatItShouldBe(resultString))
 
             elif(result[1] == "XmpSeq"):
-                print "debug02"
                 # we dont really care about result[2] which is the size of the value
                 # so lets start casting value:
                 for i in range(3, len(result)):
@@ -149,6 +147,7 @@ class ExivWrapper :
             # over all values
             for val in value:
                 cmd = basicCmd + str(val) + '" ' + self._xmpFile
+
                 self._executeCommand(cmd)
 
         # this is not a list, just a single value
@@ -179,4 +178,5 @@ if __name__ == '__main__':
     #ew.setValue("Xmp.crs.testIt", 39.8)
     #ew.eraseTag("Xmp.crs.testIt")
 
-    ew.setValue("Xmp.crs.testSeq", [41, 42, 43.5, 44], add=True)
+    #ew.setValue("Xmp.crs.testSeq", [41, 42, 43.5, 44], add=True)
+    ew.eraseTag("Xmp.crs.testSeq")

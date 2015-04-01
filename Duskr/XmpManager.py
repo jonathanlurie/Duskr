@@ -60,6 +60,10 @@ class XmpManager:
         settings = SettingFileReader()
         self._settingCouples = settings.getItems('rawDevSettings')
 
+        print self._settingCouples
+
+        exit()
+
 
     # The folder conains raw images
     def setFirstRawImage(self, FirstRawImage):
