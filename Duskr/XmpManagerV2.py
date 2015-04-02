@@ -149,7 +149,7 @@ class XmpManager:
 
     def printStuff(self):
         for desc in self._xmpDescriptors:
-            print str(desc.getFromDictionary("Xmp.crs.Temperature")) + "\t" + str(desc.isOriginalFile())
+            print str(desc.getFromDictionary("Xmp.crs.CropAngle")) + "\t" + str(desc.isOriginalFile())
 
     def copyXmpFiles(self):
         None
