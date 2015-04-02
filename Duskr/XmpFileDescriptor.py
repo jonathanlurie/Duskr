@@ -9,6 +9,8 @@ import os
 from XmpSettingLister import *
 from ExivCRawRequester import *
 
+import Utils
+
 
 class XmpFileDescriptor:
 
@@ -35,6 +37,9 @@ class XmpFileDescriptor:
     # to read and/or write xmp data to the xmp file
     _exivCRawRequester = None
 
+    # we need it for the name field
+    _rawImageExtension = None
+
 
     # Constructor
     # xmpSettingList must be read() in advance
@@ -59,16 +64,32 @@ class XmpFileDescriptor:
     def setIsOriginal(self, isIt):
         self._isOriginalFile = isIt
 
+    def setRawImageExtension(self, ext):
+        self._rawImageExtension = ext
+
 
     # update the raw image name in the dictionary
     def _updateFileName(self):
         nameField = "Xmp.crs.RawFileName"
+
+        basenameNoExt = Utils.getBasenameNoExt(self._xmpFileName)
+        newName = basenameNoExt + self._rawImageExtension
+        self._xmpDictionnary[nameField] = newName
+
+        return
+        '''
+        # this tag does not exist yet because this descriptor is not based
+        # on an original xmp
+        # TODO : pass the raw entension as argument
+        if(nameField in self._xmpDictionnary):
+
 
         # check it first, then update it if necessary
         currentName = self._exivCRawRequester.readValue(nameField)
 
         # since it's a list
         if(currentName):
+
             # getting rid of the list structure
             currentName = currentName[0]
 
@@ -77,7 +98,8 @@ class XmpFileDescriptor:
             newName = os.path.splitext(os.path.basename(self._xmpFileName))[0] + os.path.splitext(currentName)[1]
             #self._exivCRawRequester.writeValue(nameField, newName)
             self._xmpDictionnary[nameField] = newName
-
+        '''
+        
 
     # fills the dictionary with
     # - Nones if there is no original values
@@ -133,6 +155,7 @@ if __name__ == '__main__':
 
     xmpDesc = XmpFileDescriptor(xmpFile, xmpSL)
 
+    xmpDesc.setRawImageExtension(".NEF")
 
     xmpDesc.setIsOriginal(True)
 
