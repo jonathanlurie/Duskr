@@ -61,7 +61,7 @@ class XmpFileDescriptor:
 
 
     # update the raw image name in the dictionary
-    def updateFileName(self):
+    def _updateFileName(self):
         nameField = "Xmp.crs.RawFileName"
 
         # check it first, then update it if necessary
@@ -79,27 +79,44 @@ class XmpFileDescriptor:
             self._xmpDictionnary[nameField] = newName
 
 
-    # fills the dictionary with Nones or with orinal value if it's a original file
-    def fillDictionary(self):
+    # fills the dictionary with
+    # - Nones if there is no original values
+    # - original values if it's a original file
+    def initDictionary(self):
 
-        allTags = self._xmpSettingList.getBasicSettingTags() + self._xmpSettingList.getCurvesSettingTags() + self._xmpSettingList.getCropSettingTags()
+        # concatenate all list of tags for an easier process
+        allTags = self._xmpSettingList.getBasicSettingTags() + \
+            self._xmpSettingList.getCurvesSettingTags() + \
+            self._xmpSettingList.getCropSettingTags()
 
+        # each tag is...
         for tag in allTags:
 
+            # ... attributed to None
             value = None
 
+            # ... or read in the original xmp file
             if(self._isOriginalFile):
                 value = self._exivCRawRequester.readValue(tag)
 
                 if(value and len(value) == 1):
                     value = value[0]
 
-
+            # updating the dictionary
             self._xmpDictionnary[tag] = value
 
-        self.updateFileName()
+        # updating the filename in the dictionary
+        self._updateFileName()
 
         print self._xmpDictionnary
+
+
+    # write the content of the dictionary into the XMP file
+    def writeDictionary(self):
+
+        for couple in self._xmpDictionnary.items():
+            self._exivCRawRequester.writeValue(couple[0], couple[1])
+
 
 
 # main tester
@@ -110,7 +127,7 @@ if __name__ == '__main__':
     xmpSL.read()
 
     # XMP compliant file
-    xmpFile = "/Users/jonathanlurie/Desktop/_NIK4337_name.xmp"
+    xmpFile = "/Users/jonathanlurie/Desktop/test2.xmp"
     #xmpFile = "/Users/jonathanlurie/Desktop/_NIK4447_ORIG.dng"
     #xmpFile = "/Users/jonathanlurie/Desktop/_NIK4447_norot.dng"
 
@@ -119,4 +136,5 @@ if __name__ == '__main__':
 
     xmpDesc.setIsOriginal(True)
 
-    xmpDesc.fillDictionary()
+    xmpDesc.initDictionary()
+    xmpDesc.writeDictionary()

@@ -41,8 +41,13 @@ class ExivCRawRequester:
     # write a XMP field to an XMP compliant file
     def writeValue(self, tag, val):
 
+        # if the value is not set (None), no xmp writing
+        if(not val):
+            return
+
         # if it's a curve sequence
         if(tag in self._xmpSettingLister.getCurvesSettingTags()):
+
 
             # Since curves use coordinate system, it works with pairs
             for i in range(0, len(val)/2):
