@@ -5,6 +5,7 @@ import time
 
 from XmpSettingLister import *
 from XmpFileDescriptor import *
+from XmpFileInterpolator import *
 import Utils
 
 #import tracer
@@ -35,6 +36,7 @@ class XmpManager:
 
     # gather all the setting tags used in Adobe CameraRaw
     _xmpSettingLister = None
+
 
     # Constructor
     def __init__(self):
@@ -71,7 +73,6 @@ class XmpManager:
         # finding the xmp files
         self._xmpBaseList = sorted(glob.glob(self._imageFolder + os.sep + '*' + self._xmpExtensionGuess))
 
-        print self._xmpBaseList
 
     # return True if we have:
     # - at least two raw images
@@ -92,13 +93,14 @@ class XmpManager:
                 # fetch the real xmp extention
                 self._xmpExtensionActual = Utils.getFileExt(self._xmpBaseList[0])
 
+                # at both ends?
                 if( Utils.getBasenameNoExt(self._xmpBaseList[0]) == Utils.getBasenameNoExt(self._rawImageList[0]) \
                     and Utils.getBasenameNoExt(self._xmpBaseList[-1]) == Utils.getBasenameNoExt(self._rawImageList[-1]) ):
                     xmpAtBothEnds = True
 
         return (moreThanTwoRaws and xmpAtBothEnds)
 
-
+    # build all the descriptors (but do not interplate them)
     def buildXmpDescriptors(self):
 
         # create a xmp descriptor for each raw image
@@ -123,6 +125,34 @@ class XmpManager:
 
 
 
+    def runInterpolation(self):
+
+        # find which xmpFileDescriptor are based on original xmp file
+        originalXmpIndexes = []
+        counter = 0
+        for desc in self._xmpDescriptors:
+            if(desc.isOriginalFile()):
+                originalXmpIndexes.append(counter)
+            counter = counter + 1
+
+        # building a interpolator (will be reused)
+        interpolator = XmpFileInterpolator(self._xmpSettingLister)
+
+        for i in range(1, len(originalXmpIndexes)):
+            firstPosition = originalXmpIndexes[i-1]
+            lastPosition = originalXmpIndexes[i]
+
+            interpolator.setSubList(self._xmpDescriptors[firstPosition : lastPosition+1])
+            interpolator.interpolate()
+
+
+
+    def printStuff(self):
+        for desc in self._xmpDescriptors:
+            print str(desc.getFromDictionary("Xmp.crs.Temperature")) + "\t" + str(desc.isOriginalFile())
+
+    def copyXmpFiles(self):
+        None
 
 
 # main tester
@@ -145,7 +175,10 @@ if __name__ == '__main__':
         # builds the descriptor list
         xmpMngr.buildXmpDescriptors()
 
-        
+        # interpolate the empty Descriptors
+        xmpMngr.runInterpolation()
+
+        xmpMngr.printStuff()
 
     else:
         print("ERROR : not enought data to perform interpolation")

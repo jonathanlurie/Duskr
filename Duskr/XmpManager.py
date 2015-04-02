@@ -170,7 +170,7 @@ class XmpManager:
 
     # Fill the None values of the dictionaty by interpolation
     # between the first and the last
-    # TODO : expand this finctionality to intermediate settings
+
     def _interpolateDictionary2(self):
 
 

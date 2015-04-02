@@ -68,6 +68,21 @@ class XmpFileDescriptor:
         self._rawImageExtension = ext
 
 
+    # returns True if this descriptor was base on a original xmp file
+    def isOriginalFile(self):
+        return self._isOriginalFile
+
+    def getName(self):
+        nameField = "Xmp.crs.RawFileName"
+        return self._xmpDictionnary[nameField]
+
+
+    # For debugging purpose
+    # TODO : remove when done!!
+    def getDictionary(self):
+        return self._xmpDictionnary
+
+
     # update the raw image name in the dictionary
     def _updateFileName(self):
         nameField = "Xmp.crs.RawFileName"
@@ -76,30 +91,6 @@ class XmpFileDescriptor:
         newName = basenameNoExt + self._rawImageExtension
         self._xmpDictionnary[nameField] = newName
 
-        return
-        '''
-        # this tag does not exist yet because this descriptor is not based
-        # on an original xmp
-        # TODO : pass the raw entension as argument
-        if(nameField in self._xmpDictionnary):
-
-
-        # check it first, then update it if necessary
-        currentName = self._exivCRawRequester.readValue(nameField)
-
-        # since it's a list
-        if(currentName):
-
-            # getting rid of the list structure
-            currentName = currentName[0]
-
-            # the filename within xmp data is NOT up to date
-            #if(os.path.splitext(currentName)[0] != os.path.splitext(os.path.basename(self._xmpFileName))[0] ):
-            newName = os.path.splitext(os.path.basename(self._xmpFileName))[0] + os.path.splitext(currentName)[1]
-            #self._exivCRawRequester.writeValue(nameField, newName)
-            self._xmpDictionnary[nameField] = newName
-        '''
-        
 
     # fills the dictionary with
     # - Nones if there is no original values
@@ -130,8 +121,6 @@ class XmpFileDescriptor:
         # updating the filename in the dictionary
         self._updateFileName()
 
-        print self._xmpDictionnary
-
 
     # write the content of the dictionary into the XMP file
     def writeDictionary(self):
@@ -139,6 +128,19 @@ class XmpFileDescriptor:
         for couple in self._xmpDictionnary.items():
             self._exivCRawRequester.writeValue(couple[0], couple[1])
 
+
+    # return a value from the dictionary, giving a tag
+    # or None if the tag does not exist
+    def getFromDictionary(self, tag):
+        if(tag in self._xmpDictionnary):
+            return self._xmpDictionnary[tag]
+        else:
+            return None
+
+
+    # set the value into the dictionary (no further verification)
+    def setToDictionary(self, tag, value):
+        self._xmpDictionnary[tag] = value
 
 
 # main tester
@@ -154,10 +156,14 @@ if __name__ == '__main__':
     #xmpFile = "/Users/jonathanlurie/Desktop/_NIK4447_norot.dng"
 
     xmpDesc = XmpFileDescriptor(xmpFile, xmpSL)
-
     xmpDesc.setRawImageExtension(".NEF")
-
     xmpDesc.setIsOriginal(True)
-
     xmpDesc.initDictionary()
+
+    print xmpDesc.getFromDictionary("Xmp.crs.Exposure2012")
+
+    xmpDesc.setToDictionary("Xmp.crs.Exposure2012", -1.05)
+
+    print xmpDesc.getFromDictionary("Xmp.crs.Exposure2012")
+
     xmpDesc.writeDictionary()
