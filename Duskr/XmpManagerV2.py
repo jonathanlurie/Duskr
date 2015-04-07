@@ -124,7 +124,7 @@ class XmpManager:
 
 
 
-
+    # performs the interpolation of setting, using checkpoints
     def runInterpolation(self):
 
         # find which xmpFileDescriptor are based on original xmp file
@@ -145,14 +145,25 @@ class XmpManager:
             interpolator.setSubList(self._xmpDescriptors[firstPosition : lastPosition+1])
             interpolator.interpolate()
 
+    # writes all xmp file :
+    # - copy all xmp file, based on the first one
+    # - update settings in each of them
+    def writeXmpFiles(self):
+        for desc in self._xmpDescriptors:
+            os.system('cp "' + self._xmpBaseList[0] + '" "' + desc.getFilename() + '"')
+            desc.writeDictionary()
+
+
 
 
     def printStuff(self):
         for desc in self._xmpDescriptors:
-            print str(desc.getFromDictionary("Xmp.crs.CropAngle")) + "\t" + str(desc.isOriginalFile())
+            #print str(desc.getFromDictionary("Xmp.crs.CropTop")) + "\t" + str(desc.isOriginalFile())
+            print desc.getFromDictionary("Xmp.crs.CropAngle")
+            #print desc.getDictionary()
+            #print("\n\n")
 
-    def copyXmpFiles(self):
-        None
+
 
 
 # main tester
@@ -178,7 +189,10 @@ if __name__ == '__main__':
         # interpolate the empty Descriptors
         xmpMngr.runInterpolation()
 
-        xmpMngr.printStuff()
+        # write the content into xmp files
+        xmpMngr.writeXmpFiles()
+
+        #xmpMngr.printStuff()
 
     else:
         print("ERROR : not enought data to perform interpolation")

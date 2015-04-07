@@ -70,6 +70,7 @@ class ExivWrapper :
     def setXmpFile(self, fileAddress):
         self._xmpFile = fileAddress
 
+
     # return the value of the tag, as :
     # - a number (XmpText but actually a number
     # - a string (XmpText)

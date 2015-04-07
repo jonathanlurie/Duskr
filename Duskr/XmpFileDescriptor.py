@@ -59,6 +59,9 @@ class XmpFileDescriptor:
         # empty dict
         self._xmpDictionnary = {}
 
+    # return the absolute address of the file (or future file)
+    def getFilename(self):
+        return self._xmpFileName
 
     # isIt must be True if the xmp file is an original one
     def setIsOriginal(self, isIt):
