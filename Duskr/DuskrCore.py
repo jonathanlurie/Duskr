@@ -2,16 +2,19 @@
 import os
 import glob
 import time
+import re
 
 from XmpSettingLister import *
 from XmpFileDescriptor import *
 from XmpFileInterpolator import *
 import Utils
 
+import time
+
 #import tracer
 
 
-class XmpManager:
+class DuskrCore:
 
     # list of XmpFileDescriptor
     _xmpDescriptors = None
@@ -37,6 +40,9 @@ class XmpManager:
     # gather all the setting tags used in Adobe CameraRaw
     _xmpSettingLister = None
 
+    _controller = None
+
+    _photoshopAddress = None
 
     # Constructor
     def __init__(self):
@@ -49,6 +55,8 @@ class XmpManager:
         self._xmpSettingLister.read()
 
 
+    def setController(self, ctrl):
+        self._controller = ctrl
 
 
     # A random image from the sequence will help define:
@@ -65,13 +73,21 @@ class XmpManager:
         self._imageFolder = Utils.getFolderName(imgAddress)
 
 
+    # return the number of raw files
+    def getNumberOfRawFiles(self):
+        return len(self._rawImageList)
 
     def parseSequenceFolder(self):
+        self._controller.viewUpdateInfoMessage("Looking for raw files...")
+
         # finding the raw files
         self._rawImageList = sorted(glob.glob(self._imageFolder + os.sep + '*' + self._rawExtension))
 
+        self._controller.viewUpdateInfoMessage("Loking for xmp files...")
+
         # finding the xmp files
         self._xmpBaseList = sorted(glob.glob(self._imageFolder + os.sep + '*' + self._xmpExtensionGuess))
+
 
 
     # return True if we have:
@@ -79,6 +95,8 @@ class XmpManager:
     # - at an xmp file for the first image and one for the last
     # otherwise, return false
     def hasEnoughDataToWork(self):
+
+        self._controller.viewUpdateInfoMessage("Checking data consistency...")
 
         moreThanTwoRaws = False
         xmpAtBothEnds = False
@@ -98,10 +116,23 @@ class XmpManager:
                     and Utils.getBasenameNoExt(self._xmpBaseList[-1]) == Utils.getBasenameNoExt(self._rawImageList[-1]) ):
                     xmpAtBothEnds = True
 
+        # we dont have enough raw files
+        if(not moreThanTwoRaws):
+            self._controller.viewUpdateInfoMessage("Duskr needs a sequence of raw images", isError=True)
+        # we dont have at least 2 xmp files
+        elif(not xmpAtBothEnds):
+            self._controller.viewUpdateInfoMessage("xmp files must be available\nat least for the first and\nthe last image of the sequence", isError=True)
+        # othewise, it's ok
+        else:
+            self._controller.viewUpdateInfoMessage( str(len(self._rawImageList)) + " raw files were found.\n" + \
+                str(len(self._xmpBaseList)) + " xmp files were found.\n\n" + \
+                "Press Go!\nto launch the interpolation")
+
         return (moreThanTwoRaws and xmpAtBothEnds)
 
     # build all the descriptors (but do not interplate them)
     def buildXmpDescriptors(self):
+        self._controller.viewUpdateInfoMessage("Fetching xmp data...")
 
         # create a xmp descriptor for each raw image
         for raw in self._rawImageList:
@@ -126,6 +157,7 @@ class XmpManager:
 
     # performs the interpolation of setting, using checkpoints
     def runInterpolation(self):
+        self._controller.viewUpdateInfoMessage("Interpolation running..." )
 
         # find which xmpFileDescriptor are based on original xmp file
         originalXmpIndexes = []
@@ -149,10 +181,20 @@ class XmpManager:
     # - copy all xmp file, based on the first one
     # - update settings in each of them
     def writeXmpFiles(self):
+        self._controller.viewUpdateInfoMessage("Writing xmp files..." )
+
         for desc in self._xmpDescriptors:
             os.system('cp "' + self._xmpBaseList[0] + '" "' + desc.getFilename() + '"')
             desc.writeDictionary()
 
+        # it's done, so lets display some finish statement
+        self._controller.viewUpdateInfoMessage("Interpolation\nDONE" )
+
+        self._detectPhotoshop()
+        if(self._photoshopAddress):
+            self._controller.viewDisplayPhotoshopButton()
+
+        self._controller.viewShowQuitButton()
 
 
 
@@ -164,6 +206,29 @@ class XmpManager:
             #print("\n\n")
 
 
+    def _detectPhotoshop(self):
+
+
+        self._photoshopAddress = glob.glob('/Applications/*[pP]hotoshop*.app')
+        self._photoshopAddress = self._photoshopAddress + glob.glob('/Applications/*/*[pP]hotoshop*.app')
+
+        #psdGuess.remove("*[Ll]ightroom*")
+
+        # remove lightroom from the list!
+        for item in self._photoshopAddress:
+            regexp = re.compile(r'[Ll]ightroom')
+            if(regexp.search(item)):
+                self._photoshopAddress.remove(item)
+
+
+    # maybe it would be preferable to externalze this method, since it's not xmp stuff...
+    def launchPhotoshop(self):
+        # if photoshop was found
+        if(self._photoshopAddress):
+            print("\n[Launching Adobe Photoshop]")
+            os.system("open -a '" + self._photoshopAddress[0] + "' " + " ".join(self._rawImageList))
+
+
 
 
 # main tester
@@ -172,7 +237,7 @@ if __name__ == '__main__':
     aRawFileFromTheSequence = "/Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.NEF"
 
     # not much to do
-    xmpMngr = XmpManager()
+    xmpMngr = DuskrCore()
 
     # set one image from the sequence, no matter which
     xmpMngr.setRandomImageFromSequence(aRawFileFromTheSequence)

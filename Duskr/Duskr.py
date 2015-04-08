@@ -14,23 +14,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library.
 '''
 
-import os
-from SettingFileReader import *
-
-import re
-
-from XmpManager import *
-
-from DuskrView import *
-
-
+from DuskrController import *
 
 
 # main
 if __name__ == '__main__':
 
     # the core
-    xmpMngr = XmpManager()
-
-    # the view
-    dskv = DuskrView(xmpMngr)
+    controller = DuskrController()

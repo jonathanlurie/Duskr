@@ -26,7 +26,7 @@ import tracer
 
 from subprocess import call
 
-class XmpManager:
+class XmpManagerV1:
 
     # contains the xmp file address of the first and the last
     _xmpBaseList = None
@@ -52,6 +52,8 @@ class XmpManager:
 
     # used to conserve an orinal xmp file aside
     _xmpMatrixFileName = "xmpMatrix.xmp"
+
+
 
     def __init__(self):
         self._xmpBaseList = []
