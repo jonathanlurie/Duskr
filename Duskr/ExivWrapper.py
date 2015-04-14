@@ -5,42 +5,43 @@
 
 import os
 
-class ExivWrapper :
+from ctypes import cdll
+from ctypes import c_char_p
+from ctypes import c_int
+from ctypes import byref
+from ctypes import create_string_buffer
 
-    # location of the executable file exiv2
-    _binaryLocation = "/Users/jonathanlurie/Documents/code/gitRepo/Duskr/extbin/exiv2"
+class ExivWrapper :
 
     # the XMP file does not have to be a propper XMP
     # it can be a file embedding XMP data as well (i.e. DNG)
     _xmpFile = ""
 
-    def __init__(self):
-        None
+    # low level dynamic library (.dylib file) that wraps exiv2 methods
+    _exiv2wrapperLib = None
 
 
-    # shell calling with popen.
-    # return an array with the result (empty array if no print)
-    def _executeCommand(self, cmd):
-        rawOutput = os.popen(cmd).read()
-
-        # the result can contain several lines
-        outputLines = rawOutput.split('\n')
-
-        cleanResult = []
-
-        # each lines must be split with spaces
-        for line in outputLines:
-            cleanResult.append( line.split())
-
-        # the last one is most of the time empty
-        cleanResult = filter(None, cleanResult)
-
-        #print cleanResult
-
-        #exit()
+    # functions imported from the low level wrapper
+    _wrapperFunction_getXmpValue = None
+    _wrapperFunction_getXmpValue2 = None
+    _wrapperFunction_addXmpStrField = None
+    _wrapperFunction_addXmpSeqField = None
+    _wrapperFunction_deleteXmpField = None
 
 
-        return cleanResult
+    def __init__(self, libLocation = "lib/natives/libexiv2wrapper.dylib"):
+        self._exiv2wrapperLib = cdll.LoadLibrary(libLocation)
+
+        # initialize wrapper functions
+        self._wrapperFunction_getXmpValue = self._exiv2wrapperLib.getXmpValue
+        self._wrapperFunction_getXmpValue.restype = c_char_p
+        self._wrapperFunction_getXmpValue2 = self._exiv2wrapperLib.getXmpValue2
+        self._wrapperFunction_getXmpValue2.restype = c_char_p
+        self._wrapperFunction_addXmpstrField = self._exiv2wrapperLib.addXmpStrField
+        self._wrapperFunction_addXmpSeqField = self._exiv2wrapperLib.addXmpSeqField
+        self._wrapperFunction_deleteXmpField = self._exiv2wrapperLib.deleteXmpField
+
+
 
     # a string as input.
     # If it's a int, returns a int,
@@ -76,22 +77,27 @@ class ExivWrapper :
     # - a string (XmpText)
     # - a list (XmpSeq)
     def getValue(self, tag):
-        cmd = self._binaryLocation + " -P X " + self._xmpFile + " | grep " + tag
-        arrayResult = self._executeCommand(cmd)
+
+        arrayResult = self._wrapperFunction_getXmpValue(self._xmpFile, tag)
+
+        print arrayResult
 
         result = None
 
-        # the arrayResult might contain other fieds than the requested
-        for line in arrayResult:
 
-            # condition 1.
-            if(line[0] == tag):
-                result = line
-                break
-
-        # if was not found, exit
-        if(not result):
+        # if tag was not found, exit
+        if(arrayResult == "0"):
+            print("The tag was not found")
             return None
+
+        # if image was not found, exit
+        if(arrayResult == "-1"):
+            print("The xmp file was not found")
+            return None
+
+
+        # else, we split the result
+        result = arrayResult.split()
 
         # empty list to store the clean and casted result
         cleanResult = []
@@ -130,38 +136,60 @@ class ExivWrapper :
         return cleanResult
 
 
+    # Get a value giving a xmp tag.
+    # returns None if value not found
+    # In cas of success, return a size-2 array :
+    # [0] :
+    def getValue2(self, tag):
+
+        res = None
+
+        success = c_int(0)
+        success.value = 0
+
+        isSequence = c_int(0)
+        isSequence.value = 0
+
+        result = self._wrapperFunction_getXmpValue2(self._xmpFile, tag, byref(success), byref(isSequence))
+
+        if(success.value):
+            res = [None, isSequence.value]
+
+            # if its a sequence, we split it to get a list
+            if(isSequence.value):
+                res[0] = filter(None, result.split('|'))
+
+
+            # if it's a simple string, we take it like that
+            else:
+                res[0] = result
+
+        return res
+
+
+
     # sets a value of a tag.
     # If value if a list, then you can chose to add to or to replace the exsting
     # default is replacing. set add to True to add.
     # The value will be converted to strings (or to a list of string in cas of sequence)
-    def setValue(self, tag, value, add=False):
+    def setValue(self, tag, value):
 
         # is it list we want to add ?
         if(isinstance(value, list)):
-
-            # we do not add, but replace. Meaning erase first
-            if(not add):
-                self.eraseTag(tag)
-
-            basicCmd = self._binaryLocation + ' -M"set ' + tag + ' XmpSeq '
-
-            # over all values
-            for val in value:
-                cmd = basicCmd + str(val) + '" ' + self._xmpFile
-
-                self._executeCommand(cmd)
+            # transform the list into a easily-splitable string
+            #listStr = "|".join(value)
+            listStr = "|".join(str(x) for x in value)
+            self._wrapperFunction_addXmpSeqField(self._xmpFile, tag, listStr)
 
         # this is not a list, just a single value
         else:
-            cmd = self._binaryLocation + ' -M"set ' + tag + ' XmpText ' + str(value) + '" ' + self._xmpFile
-            self._executeCommand(cmd)
+            self._wrapperFunction_addXmpstrField(self._xmpFile, tag, str(value))
 
 
 
     # erase a tag and its value
     def eraseTag(self, tag):
-        cmd = self._binaryLocation + ' -M"del ' + tag + '" '  + self._xmpFile
-        self._executeCommand(cmd)
+        self._wrapperFunction_deleteXmpField(self._xmpFile, tag)
 
 
 
@@ -170,14 +198,19 @@ class ExivWrapper :
 if __name__ == '__main__':
 
 
+    #ew = ExivWrapper( libLocation="../lib/natives/libexiv2wrapper.dylib")
     ew = ExivWrapper()
-    ew.setXmpFile("/Users/jonathanlurie/Desktop/test.xmp")
+    ew.setXmpFile("/Users/jonathanlurie/Desktop/_NIK4337.xmp")
 
-    val = ew.getValue("Xmp.crs.ToneCurve")
-    print val
+    #val = ew.getValue("Xmp.crs.ToneCurve")
+    #print val
 
     #ew.setValue("Xmp.crs.testIt", 39.8)
     #ew.eraseTag("Xmp.crs.testIt")
 
-    #ew.setValue("Xmp.crs.testSeq", [41, 42, 43.5, 44], add=True)
-    ew.eraseTag("Xmp.crs.testSeq")
+    ew.setValue("Xmp.crs.testString", "bonjour hello")
+    #ew.setValue("Xmp.crs.testSeq", [41, 42, 43.5, 44])
+    #ew.setValue("Xmp.crs.testTxtSeq", ["bonjour", "hello", "good morning", "hi"])
+    #ew.eraseTag("Xmp.crs.testSeq")
+
+    #print ew.getValue("Xmp.crs.ToneCurveGreen")
