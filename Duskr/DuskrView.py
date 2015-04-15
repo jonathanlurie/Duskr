@@ -2,7 +2,9 @@ import Tkinter as tkinter
 import tkFileDialog
 import Tkconstants
 import time
-
+import Utils
+import webbrowser
+from _version import __version__
 
 
 class DuskrView:
@@ -45,10 +47,15 @@ class DuskrView:
 
 
         # copyright label
-        copyrightLbl = tkinter.Label(self._mainWindow, text="github.com/jonathanlurie/duskr", font=("Helvetica", 14), fg="gray")
-
-
+        copyrightLbl = tkinter.Label(self._mainWindow, text="github.com/jonathanlurie/duskr", font=("Helvetica", 14), fg="gray", cursor="hand2")
+        copyrightLbl.bind("<Button-1>", self.openUrl)
         copyrightLbl.pack(side="bottom")
+
+
+        self._addMenu()
+
+
+
 
 
     def display(self):
@@ -139,9 +146,6 @@ class DuskrView:
             self._refreshWidgets()
 
 
-
-
-
     # starting the interpolation and xmp file writing
     def startProcess(self):
         self._genericButton.pack_forget()
@@ -151,9 +155,96 @@ class DuskrView:
         self.updateInfoMessage("Reading files...")
 
         # hiding buttons
-
         self._controller.coreLaunchProcess()
+
+
 
     def displayPhotoshopButton(self):
         psdButton = tkinter.Button(self._mainWindow, command=self._controller.launchPhotoshop, text="Open in Photoshop")
         psdButton.pack()
+
+
+
+
+
+    def _addMenu(self):
+        menubar = tkinter.Menu(self._mainWindow)
+
+        helpmenu = tkinter.Menu(menubar, tearoff=0)
+        helpmenu.add_command(label="About", command=self._displayAboutWindow)
+        helpmenu.add_command(label="Help", command=self._displayHelpWindow)
+        menubar.add_cascade(label="Help", menu=helpmenu)
+
+        # display the menu
+        self._mainWindow.config(menu=menubar)
+
+    def _displayAboutWindow(self):
+        print "displaying the About window"
+        print "displaying the Help window"
+        content = Utils.loadTextFile("text/about.txt") + "\n\nVersion : " + __version__
+
+        self._displayGenericTextWindow(content, "About")
+
+    def _displayHelpWindow(self):
+        print "displaying the Help window"
+        content = Utils.loadTextFile("text/help.txt")
+        self._displayGenericTextWindow(content, "Help")
+
+
+    def _displayGenericTextWindow(self, content, title):
+        # example taken at
+        # http://www.python-course.eu/tkinter_text_widget.php
+
+
+        # create a new window
+        genericWindow = tkinter.Toplevel()
+
+        # give a title to the window
+        genericWindow.title(title)
+
+        # set window size
+        genericWindow.geometry("800x400")
+        genericWindow.resizable(0, 0)
+
+        # creating left pane, with an image
+        leftPane = tkinter.Text(genericWindow, height=20, width=40)
+
+        photo = tkinter.PhotoImage(file='images/logo.gif')
+        leftPane.insert(tkinter.END,'\n')
+        leftPane.config(takefocus=False)
+        leftPane.image_create(tkinter.END, image=photo)
+        leftPane.config(state=tkinter.DISABLED)
+        leftPane.pack(side=tkinter.LEFT)
+
+
+        # creating right pane, scrollabale
+        rightPane = tkinter.Text(genericWindow, height=20, width=65)
+
+        scroll = tkinter.Scrollbar(genericWindow, command=rightPane.yview)
+        rightPane.configure(yscrollcommand=scroll.set)
+        rightPane.configure(wrap="word")
+
+        # defining some styles
+        rightPane.tag_configure('bold_italics', font=('Helvetica', 12, 'bold', 'italic'))
+        rightPane.tag_configure('big', foreground='#BBBBBB', font=('Helvetica', 40, 'bold'))
+        rightPane.tag_configure('regular', foreground='#555555', font=('Helvetica', 14))
+        rightPane.tag_bind('follow', '<1>', lambda e, t=rightPane: t.insert(tkinter.END, "Not now, maybe later!"))
+        rightPane.insert(tkinter.END, str(title) + '\n', 'big')
+
+        # adding content
+        rightPane.insert(tkinter.END, "\n" + content, 'regular')
+
+        rightPane.config(state=tkinter.DISABLED)
+
+        # packing
+        rightPane.pack(side=tkinter.LEFT)
+        scroll.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+
+
+
+        # opening the window
+        genericWindow.mainloop()
+
+
+    def openUrl(self, event):
+        webbrowser.open_new(r"http://www.github.com/jonathanlurie/duskr")

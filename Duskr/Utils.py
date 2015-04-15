@@ -1,11 +1,21 @@
 import os
+from ctypes import cdll
 
+# some global function to avoid loading dylib all the time
+copyFileLib = cdll.LoadLibrary("lib/natives/libcopyFile.dylib")
+copyFileFromLib = copyFileLib.copyFile
+
+
+
+# return the basename of a file, without its extension
 def getBasenameNoExt(wholeAddress):
     return os.path.splitext(os.path.basename(wholeAddress))[0]
 
+# just a dirname
 def getFolderName(wholeAddress):
     return os.path.dirname(wholeAddress)
 
+# return the extension of a file
 def getFileExt(wholeAddress):
     return os.path.splitext(os.path.basename(wholeAddress))[1]
 
@@ -32,3 +42,43 @@ def castToWhatItShouldBe(val):
         None
 
     return val
+
+
+# copy a file using a low level home made lib.
+# the advantage is that it copies also the xattr metadata
+# required for xmp file interpretation by Adobe Cameraraw.
+# return 1 if success
+# return 0 if faillure
+def copyFile(src, dest):
+
+    #copyFileLib = cdll.LoadLibrary("lib/natives/libcopyFile.dylib")
+    #copyFileFromLib = copyFileLib.copyFile
+
+    return copyFileFromLib(src, dest)
+
+
+# reads a text file and return a string of its content
+def loadTextFile(fileAddress):
+    strContent = ""
+
+    try:
+        with open(fileAddress) as f:
+            content = f.readlines()
+
+            strContent = "".join(content)
+    except IOError as e:
+        print("ERROR : file " + fileAddress + " not found.")
+
+    return strContent
+
+
+# main tester
+if __name__ == '__main__':
+    # from and to are the same
+    #copyFile("/Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp", "/Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp")
+    # more regular
+    #copyFile("/Users/jonathanlurie/Documents/code/data/NEFpictures/origCurve/_NIK4337.xmp", "/Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337.xmp")
+    #copyFile("/Users/jonathanlurie/Documents/code/data/NEFpictures/origCurve/_NIK4337.xmp", "/Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337-2.xmp")
+    #copyFile("/Users/jonathanlurie/Documents/code/data/NEFpictures/origCurve/_NIK4337.xmp", "/Users/jonathanlurie/Documents/code/data/NEFpictures/_NIK4337-3.xmp")
+
+    loadTextFile("/Users/jonathanlurie/Desktop/help.txt")

@@ -10,7 +10,7 @@ from XmpFileInterpolator import *
 import Utils
 
 import time
-
+import datetime
 #import tracer
 
 
@@ -183,9 +183,16 @@ class DuskrCore:
     def writeXmpFiles(self):
         self._controller.viewUpdateInfoMessage("Writing xmp files..." )
 
+        #t0 = datetime.datetime.now()
         for desc in self._xmpDescriptors:
-            os.system('cp "' + self._xmpBaseList[0] + '" "' + desc.getFilename() + '"')
+            #os.system('cp "' + self._xmpBaseList[0] + '" "' + desc.getFilename() + '"')
+            Utils.copyFile(self._xmpBaseList[0], desc.getFilename())
             desc.writeDictionary()
+
+        #t1 = datetime.datetime.now()
+        #delta = t1-t0
+
+        print str(delta.seconds) + "sec " + str(delta.microseconds)
 
         # it's done, so lets display some finish statement
         self._controller.viewUpdateInfoMessage("Interpolation\nDONE" )

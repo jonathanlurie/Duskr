@@ -1,0 +1,4 @@
+Duskr is a timelapse interpolator working alongside Adobe® Photoshop®.
+Duskr is an independant software.
+
+Copyright 2015

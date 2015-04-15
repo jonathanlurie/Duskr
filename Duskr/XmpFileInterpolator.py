@@ -47,10 +47,6 @@ class XmpFileInterpolator:
             lastValue = self._subDescriptorList[-1].getFromDictionary(setting)
             needsInterpolation = (firstValue != lastValue and (firstValue or lastValue))
 
-
-
-
-
             # the necessary to interpolate
             counter = 0
 
@@ -197,6 +193,12 @@ class XmpFileInterpolator:
             firstValue = self._subDescriptorList[0].getFromDictionary(setting)
             lastValue = self._subDescriptorList[-1].getFromDictionary(setting)
 
+            '''
+            print "setting : " + str(setting)
+            print "firstValue " + str(firstValue)
+            print "lastValue " + str(lastValue)
+            '''
+
             # check if it was set...
 
             # both are set
@@ -251,6 +253,8 @@ class XmpFileInterpolator:
             # check if we do need an interpolation of if a value-copy is enough
             firstValue = self._subDescriptorList[0].getFromDictionary(setting)
             lastValue = self._subDescriptorList[-1].getFromDictionary(setting)
+
+
 
             # check if it was set...
 

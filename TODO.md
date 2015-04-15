@@ -1,14 +1,15 @@
 # TODOs
 
 ## GUI
-- implement it with *tix*
 - make it reactive to counting
-- do not propose only to quit when amp is missing
+- do not propose only to quit when xmp is missing
+- add a About section to the menu
 
 ## core
 - use a dedicated class to launch Photoshop or other binaries
-- Make a wrapper for Exiv2
+- Use a list of raw extensions to avoid dirty file selection
+- Make a wrapper for Exiv2 **-->DONE**
 
 ## features
-- Backup amp files into a hidden folder with timestamp name
-- Add a `version.py file
+- Backup xmp files into a hidden folder with timestamp name
+- Add a `version.py` file

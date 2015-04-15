@@ -28,7 +28,7 @@ class ExivWrapper :
     _wrapperFunction_addXmpSeqField = None
     _wrapperFunction_deleteXmpField = None
 
-
+    #def __init__(self, libLocation = "../Frameworks/libexiv2wrapper.dylib"):
     def __init__(self, libLocation = "lib/natives/libexiv2wrapper.dylib"):
         self._exiv2wrapperLib = cdll.LoadLibrary(libLocation)
 
@@ -79,8 +79,6 @@ class ExivWrapper :
     def getValue(self, tag):
 
         arrayResult = self._wrapperFunction_getXmpValue(self._xmpFile, tag)
-
-        print arrayResult
 
         result = None
 
@@ -179,6 +177,7 @@ class ExivWrapper :
             # transform the list into a easily-splitable string
             #listStr = "|".join(value)
             listStr = "|".join(str(x) for x in value)
+
             self._wrapperFunction_addXmpSeqField(self._xmpFile, tag, listStr)
 
         # this is not a list, just a single value

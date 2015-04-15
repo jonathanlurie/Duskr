@@ -75,7 +75,7 @@ class ExivCRawRequester:
             # Since curves use coordinate system, it works with pairs
             for i in range(0, len(val)/2):
                 # making sub-arrays containing a string with coma. Split again with a pipe
-                valConcat.append( [str(val[2*i]) + ", " +   str(val[2*i+1])] )
+                valConcat.append( str(val[2*i]) + ", " +   str(val[2*i+1]) )
 
             self._exivWrapper.setValue(tag, valConcat)
 

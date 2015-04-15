@@ -6,18 +6,25 @@ Usage:
 """
 
 from setuptools import setup
+import glob
+
+exec(open('Duskr/_version.py').read())
+
+print "version : " + __version__
 
 APP = ['Duskr/Duskr.py']
 DATA_FILES = [
     ('images', ['images/logo.gif']),
     ('settings', ['settings/settings.ini']),
-    ('extbin', ['extbin/exiv2'])
+    ('text', glob.glob('text/*.txt')),
+    ('lib/natives', glob.glob('lib/natives/*')),
 
 ]
 
 OPTIONS = {
     'iconfile':'images/icon.icns',
-    'argv_emulation': True
+    'argv_emulation': True#,
+    #'frameworks' : glob.glob('./lib/natives/*')
 }
 
 setup(
@@ -26,8 +33,8 @@ setup(
     url='https://github.com/jonathanlurie/Duskr',
     author='Jonathan Lurie',
     author_email='lurie.jo@gmail.com',
-    description='Raw picture setting interpolator for timelapse sequence.',
-    licence='LGPL',
+    description='Raw development setting interpolator for timelapse sequence.',
+    license='LGPL',
     app=APP,
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
