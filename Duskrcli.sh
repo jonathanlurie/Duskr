@@ -12,4 +12,5 @@ export PYTHONPATH=$INSTALL_DIR/lib/:$PYTHONPATH
 #python Duskr/ExivWrapper.py
 #python Duskr/XmpFileDescriptor.py
 #python Duskr/XmpManagerV2.py
-python Duskr/Utils.py
+#python Duskr/Utils.py
+python Duskr/BackupManager.py

@@ -42,20 +42,59 @@ class DuskrController:
 
     # call core methods to run the interpolation and write xmp files
     def coreLaunchProcess(self):
-        # builds the descriptor list
-        self._core.buildXmpDescriptors()
+        # TODO : create a backup!
+        # (check was performed before, we reach this point only if data are ok)
 
-        # interpolate the empty Descriptors
-        self._core.runInterpolation()
-
-        # write the content into xmp files
-        self._core.writeXmpFiles()
+        self._core.mainProcess
 
 
     # call core method to check if the opened folder contains enough data
     # to run interpolation
-    def coreHasEnoughDataToWork(self):
-        return self._core.hasEnoughDataToWork()
+    def coreAreDataOK(self):
+
+        # check if there is too many xmp files (one per raw)
+        # which is not good
+        hasTooMany = self._core.hasTooManyXmp()
+
+        # check if we have enough xmp files
+        hasEnough = self._core.hasEnoughDataToWork()
+
+        # we have too many xmp : not good
+        if(hasTooMany):
+            self.isBackupPossible() # might be asked by the view afterwards
+            self.proposeBackup()# might be asked by the view afterwards
+            self._controller.viewUpdateInfoMessage("There is too many xmp files.\n")
+
+        # we dont have too many xmp : might be good
+        else:
+
+            # we have just enough xmp : good
+            if(hasEnough):
+                self.viewUpdateInfoMessage( str(self._core.getNumberOfRawFiles()) + " raw files were found.\n" + \
+                    str(len(self._core.getNumberOfXmpFiles())) + " xmp files were found.\n\n" + \
+                    "Press Go!\nto launch the interpolation")
+
+            # not enough xmp : not good
+            else:
+                self.isBackupPossible()# might be asked by the view afterwards
+                self.proposeBackup()# might be asked by the view afterwards
+                self._controller.viewUpdateInfoMessage("xmp files must be available\nat least for the first and\nthe last image of the sequence", isError=True)
+
+        return [hasEnough, hasTooMany]
+
+
+    # TODO : return if a backup is present and able to be used
+    def _isRestoreBackupPossible(self):
+        None
+
+    # TODO : ask (through view) to restore a backup
+    def _proposeRestoreBackup(self):
+        None
+
+    # TODO : ask the core to perform a restoration from backup
+    def coreRestore(self):
+
+        None
 
 
     # call view method to update the information message.

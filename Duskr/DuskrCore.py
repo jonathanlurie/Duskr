@@ -77,6 +77,11 @@ class DuskrCore:
     def getNumberOfRawFiles(self):
         return len(self._rawImageList)
 
+    # return the number of xmp files found
+    def getNumberOfXmpFiles(self):
+        return len(self._xmpBaseList)
+
+
     def parseSequenceFolder(self):
         self._controller.viewUpdateInfoMessage("Looking for raw files...")
 
@@ -87,6 +92,14 @@ class DuskrCore:
 
         # finding the xmp files
         self._xmpBaseList = sorted(glob.glob(self._imageFolder + os.sep + '*' + self._xmpExtensionGuess))
+
+
+    # this checks if there is the same number of xmp and raw
+    # which is not good for interpolation.
+    # Return True if there is too many xmp
+    # return False if it's ok
+    def hasTooManyXmp(self):
+        return len(self._rawImageList) == len(self._xmpBaseList)
 
 
 
@@ -115,18 +128,6 @@ class DuskrCore:
                 if( Utils.getBasenameNoExt(self._xmpBaseList[0]) == Utils.getBasenameNoExt(self._rawImageList[0]) \
                     and Utils.getBasenameNoExt(self._xmpBaseList[-1]) == Utils.getBasenameNoExt(self._rawImageList[-1]) ):
                     xmpAtBothEnds = True
-
-        # we dont have enough raw files
-        if(not moreThanTwoRaws):
-            self._controller.viewUpdateInfoMessage("Duskr needs a sequence of raw images", isError=True)
-        # we dont have at least 2 xmp files
-        elif(not xmpAtBothEnds):
-            self._controller.viewUpdateInfoMessage("xmp files must be available\nat least for the first and\nthe last image of the sequence", isError=True)
-        # othewise, it's ok
-        else:
-            self._controller.viewUpdateInfoMessage( str(len(self._rawImageList)) + " raw files were found.\n" + \
-                str(len(self._xmpBaseList)) + " xmp files were found.\n\n" + \
-                "Press Go!\nto launch the interpolation")
 
         return (moreThanTwoRaws and xmpAtBothEnds)
 
@@ -183,16 +184,11 @@ class DuskrCore:
     def writeXmpFiles(self):
         self._controller.viewUpdateInfoMessage("Writing xmp files..." )
 
-        #t0 = datetime.datetime.now()
         for desc in self._xmpDescriptors:
-            #os.system('cp "' + self._xmpBaseList[0] + '" "' + desc.getFilename() + '"')
             Utils.copyFile(self._xmpBaseList[0], desc.getFilename())
             desc.writeDictionary()
 
-        #t1 = datetime.datetime.now()
-        #delta = t1-t0
 
-        print str(delta.seconds) + "sec " + str(delta.microseconds)
 
         # it's done, so lets display some finish statement
         self._controller.viewUpdateInfoMessage("Interpolation\nDONE" )
@@ -204,6 +200,11 @@ class DuskrCore:
         self._controller.viewShowQuitButton()
 
 
+    # bundle launch of the core methods
+    def mainProcess(self):
+        self.buildXmpDescriptors()
+        self.runInterpolation()
+        self.writeXmpFiles()
 
     def printStuff(self):
         for desc in self._xmpDescriptors:
@@ -214,8 +215,6 @@ class DuskrCore:
 
 
     def _detectPhotoshop(self):
-
-
         self._photoshopAddress = glob.glob('/Applications/*[pP]hotoshop*.app')
         self._photoshopAddress = self._photoshopAddress + glob.glob('/Applications/*/*[pP]hotoshop*.app')
 
@@ -236,6 +235,19 @@ class DuskrCore:
             os.system("open -a '" + self._photoshopAddress[0] + "' " + " ".join(self._rawImageList))
 
 
+    # TODO : use BackupManager.backupFiles()
+    def backupXmp(self):
+        None
+
+    # TODO : use BackupManager.backupFiles()
+    def restoreXmp(self):
+        # step 1 : use BackupManager.restoreFiles()
+        # step 2 : empty lists
+        # step 3 : relaunch self.parseSequenceFolder()
+        # step 4 : lancer self.mainProcess()
+
+
+        None
 
 
 # main tester

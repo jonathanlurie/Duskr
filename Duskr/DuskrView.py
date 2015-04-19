@@ -137,21 +137,27 @@ class DuskrView:
         # this may take some time...
         self._controller.corePrepareFiles(self._firstRawFilename)
 
-        # check if it"s ok to continue
-        if(self._controller.coreHasEnoughDataToWork()):
+        # [enough, tooMany]  is a list of 2 booleans
+        enoughOrTooMany = self._controller.coreAreDataOK()
 
+
+        # there is just enough xmp but not too many
+        if(enoughOrTooMany[0] == True and enoughOrTooMany[1] == False):
             # button to launch the interpolation
             self._genericButton.config(command=self.startProcess)
             self._genericButton.config(text="Go!")
             self._refreshWidgets()
 
+        else:
+            # TODO : retore a backup??
+            None
+
+
 
     # starting the interpolation and xmp file writing
     def startProcess(self):
         self._genericButton.pack_forget()
-
         self._refreshWidgets()
-
         self.updateInfoMessage("Reading files...")
 
         # hiding buttons

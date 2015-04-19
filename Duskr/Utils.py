@@ -1,5 +1,7 @@
 import os
 from ctypes import cdll
+import time
+import datetime
 
 # some global function to avoid loading dylib all the time
 copyFileLib = cdll.LoadLibrary("lib/natives/libcopyFile.dylib")
@@ -10,6 +12,10 @@ copyFileFromLib = copyFileLib.copyFile
 # return the basename of a file, without its extension
 def getBasenameNoExt(wholeAddress):
     return os.path.splitext(os.path.basename(wholeAddress))[0]
+
+# return the basename of a file, without its extension
+def getBasenameWithExt(wholeAddress):
+    return os.path.basename(wholeAddress)
 
 # just a dirname
 def getFolderName(wholeAddress):
@@ -70,6 +76,17 @@ def loadTextFile(fileAddress):
         print("ERROR : file " + fileAddress + " not found.")
 
     return strContent
+
+
+# return the timestamp in integer
+def getTimestamp():
+    return int(time.time())
+
+
+# take a integer timestamp (can be a string as well) and return the date
+# in a more readable format
+def getDateFromTimestamp(ts):
+    return datetime.datetime.fromtimestamp(int(ts)).strftime('%Y-%m-%d %H:%M:%S')
 
 
 # main tester
